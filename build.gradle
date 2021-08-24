@@ -10,8 +10,6 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-
 publishing {
     publications {
         library(MavenPublication) {
