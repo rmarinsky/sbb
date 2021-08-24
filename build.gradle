@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'ua.marinsky'
-version '0.1'
+version '0.2'
 
 repositories {
     mavenCentral()
@@ -22,7 +22,7 @@ publishing {
         library(MavenPublication) {
             groupId = 'ua.marinsky'
             artifactId = 'sbb'
-            version = '0.1'
+            version = '0.2'
 
             from components.java
         }
