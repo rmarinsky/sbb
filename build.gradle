@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
 }
 
 group 'ua.marinsky'
@@ -10,10 +11,45 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
 publishing {
     publications {
         library(MavenPublication) {
+            groupId = 'ua.marinsky'
+            artifactId = 'sbb'
+            version = '0.1'
+
             from components.java
+        }
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'String Builder Builder'
+                description = "String Builder that doesn't sucks"
+                url = 'https://github.com/rmarinsky/stringBuilderBuilder'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'rmarinsky'
+                        name = 'Roman Marinsky'
+                        email = 'newromka@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://example.com/my-library.git'
+                    developerConnection = 'scm:git:ssh://example.com/my-library.git'
+                    url = 'https://github.com/rmarinsky/stringBuilderBuilder'
+                }
+            }
         }
     }
     repositories {
@@ -21,4 +57,8 @@ publishing {
             url = uri("${buildDir}/publishing-repository")
         }
     }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
