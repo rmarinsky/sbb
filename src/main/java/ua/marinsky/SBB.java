@@ -21,6 +21,14 @@ public class SBB {
     }
 
     /**
+     * Append char
+     */
+    private SBB append(char targetChar) {
+        this.strBuilder.append(targetChar);
+        return this;
+    }
+
+    /**
      * Append plain text
      */
     public SBB append(Object targetPlainText) {
@@ -47,21 +55,21 @@ public class SBB {
      * Add new line caret
      */
     public SBB n() {
-        return this.append("\n");
+        return this.append('\n');
     }
 
     /**
      * Add a tabulation
      */
     public SBB t() {
-        return this.append("\t");
+        return this.append('\t');
     }
 
     /**
      * Add new whitespace
      */
     public SBB w() {
-        return this.append(" ");
+        return this.append(' ');
     }
 
     /**
@@ -70,7 +78,7 @@ public class SBB {
      * @return 'targetPlainText'
      */
     public SBB sQuote(Object targetPlainText) {
-        return this.append("'").append(targetPlainText).append("'");
+        return this.append('\'').append(targetPlainText).append('\'');
     }
 
     /**
@@ -79,7 +87,7 @@ public class SBB {
      * @return "targetPlainText"
      */
     public SBB dQuote(Object targetPlainText) {
-        return this.append("\"").append(targetPlainText).append("\"");
+        return this.append('\"').append(targetPlainText).append('\"');
     }
 
     public String build() {
