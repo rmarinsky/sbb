@@ -1,2 +1,2 @@
-# StringBuilder Builder
-Builder class for a weak StringBuilder
+# Builder for StringBuilder
+String builder that doesn't sucks!
