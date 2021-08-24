@@ -1,5 +1,6 @@
 plugins {
-    id 'java'
+    id 'java-library'
+    id 'maven-publish'
 }
 
 group 'ua.marinsky'
@@ -9,5 +10,17 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url = uri("${buildDir}/publishing-repository")
+        }
+    }
 }
