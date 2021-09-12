@@ -29,7 +29,7 @@ public class SBB {
     }
 
     /**
-     * Append plain text
+     * Append Object to text
      */
     public SBB append(Object targetPlainText) {
         return this.addToBuild(targetPlainText);

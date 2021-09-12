@@ -1,7 +1,6 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'signing'
 }
 
 group 'ua.marinsky'
@@ -11,54 +10,50 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    junitVer = '5.7.2'
+}
+
+dependencies {
+    testImplementation(
+            "org.junit.jupiter:junit-jupiter-api:$junitVer",
+            "org.junit.jupiter:junit-jupiter-engine:$junitVer",
+            "org.assertj:assertj-core:3.20.2"
+    )
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(8)
     }
 }
 
-publishing {
-    publications {
-        library(MavenPublication) {
-            groupId = 'ua.marinsky'
-            artifactId = 'sbb'
-            version = '0.2'
+test {
+    useJUnitPlatform()
 
-            from components.java
-        }
-        mavenJava(MavenPublication) {
-            pom {
-                name = 'String Builder Builder'
-                description = "String Builder that doesn't sucks"
-                url = 'https://github.com/rmarinsky/stringBuilderBuilder'
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'rmarinsky'
-                        name = 'Roman Marinsky'
-                        email = 'newromka@gmail.com'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:git://example.com/my-library.git'
-                    developerConnection = 'scm:git:ssh://example.com/my-library.git'
-                    url = 'https://github.com/rmarinsky/stringBuilderBuilder'
-                }
-            }
-        }
-    }
-    repositories {
-        maven {
-            url = uri("${buildDir}/publishing-repository")
-        }
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+        showStandardStreams = true
+        exceptionFormat = 'full'
     }
 }
 
-signing {
-    sign publishing.publications.mavenJava
+publishing {
+    repositories {
+        maven {
+            name = 'StringBuilderBuilder'
+            description = "String Builder that doesn't sucks"
+            url = uri('https://maven.pkg.github.com/rmarinsky/stringBuilderBuilder')
+
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GH_USER")
+                password = project.findProperty("gpr.key") ?: System.getenv("GH_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
 }
