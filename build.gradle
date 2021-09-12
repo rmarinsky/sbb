@@ -44,8 +44,8 @@ publishing {
             name = 'GitHubPackages'
             url = uri('https://maven.pkg.github.com/rmarinsky/stringBuilderBuilder')
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GH_USER")
-                password = project.findProperty("gpr.key") ?: System.getenv("GH_TOKEN")
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
