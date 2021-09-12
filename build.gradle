@@ -1,10 +1,10 @@
 plugins {
-    id 'java-library'
-    id 'maven-publish'
+    id('java')
+    id("maven-publish")
 }
 
 group 'ua.marinsky'
-version '0.2'
+version '0.3.1'
 
 repositories {
     mavenCentral()
