@@ -1,4 +1,4 @@
-package ua.marinsky;
+package com.github.marinsky;
 
 /**
  * String Builder Builder
@@ -75,19 +75,27 @@ public class SBB {
     /**
      * Append as single quoted value
      *
-     * @return 'targetPlainText'
+     * @return 'SBB'
      */
     public SBB sQuote(Object targetPlainText) {
         return this.append('\'').append(targetPlainText).append('\'');
     }
 
+    public SBB sq(Object targetPlainText) {
+        return sQuote(targetPlainText);
+    }
+
     /**
      * Append as double quoted value
      *
-     * @return "targetPlainText"
+     * @return "SBB"
      */
     public SBB dQuote(Object targetPlainText) {
         return this.append('\"').append(targetPlainText).append('\"');
+    }
+
+    public SBB dq(Object targetPlainText) {
+        return dQuote(targetPlainText);
     }
 
     public String build() {
