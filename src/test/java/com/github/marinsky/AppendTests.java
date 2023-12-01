@@ -76,8 +76,8 @@ public class AppendTests {
     @Test
     @DisplayName("Test for append null for append() method and wrapper")
     public void NullIsIgnoredTest() {
-        String result = sbb(null).sb(null).bld();
-        assertThat(result).isEqualTo("[]");
+        String result = sbb(null).coma().sb(null).dot().bld();
+        assertThat(result).isEqualTo(",[].");
     }
 
     @Test
