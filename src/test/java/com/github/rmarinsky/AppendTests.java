@@ -1,4 +1,4 @@
-package com.github.marinsky;
+package com.github.rmarinsky;
 
 import com.github.javafaker.Faker;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static com.github.marinsky.SBB.sbb;
+import static com.github.rmarinsky.SBB.sbb;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,4 +1,4 @@
-package com.github.marinsky;
+package com.github.rmarinsky;
 
 import java.util.Optional;
 
