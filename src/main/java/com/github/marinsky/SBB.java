@@ -5,10 +5,19 @@ package com.github.marinsky;
  */
 public class SBB {
 
-    private final StringBuilder strBuilder = new StringBuilder();
+    private final StringBuilder strBuilder;
+
+
+    private SBB() {
+        this.strBuilder = new StringBuilder();
+    }
 
     public static SBB sbb() {
-        return new SBB();
+        return LazyHolder.instance;
+    }
+
+    private static class LazyHolder {
+        private static final SBB instance = new SBB();
     }
 
     public static SBB sbb(Object basePlainText) {
