@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "python-sbb"
-version = "1.0.0"
+version = "1.3"
 description = "String Builder Builder - Fluent string concatenation for Python"
 readme = "README.md"
 license = "MIT"
