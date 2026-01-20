@@ -1,4 +1,33 @@
-# Project exclude paths
-/.gradle/
-/.idea
-/build
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Java
+java/.gradle/
+java/build/
+*.class
+*.jar
+
+# Python
+python/__pycache__/
+python/*.egg-info/
+python/dist/
+python/build/
+python/.pytest_cache/
+*.pyc
+*.pyo
+.eggs/
+.coverage
+htmlcov/
+
+# JavaScript
+js/node_modules/
+js/dist/
+js/coverage/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+!/java/gradle/wrapper/gradle-wrapper.jar

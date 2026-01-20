@@ -1,0 +1,43 @@
+{
+  "name": "js-sbb",
+  "version": "1.0.0",
+  "description": "String Builder Builder - Fluent string concatenation for JavaScript/TypeScript",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "string",
+    "builder",
+    "fluent",
+    "concatenation",
+    "typescript"
+  ],
+  "author": "rmarinsky",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rmarinsky/js-sbb"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  }
+}
