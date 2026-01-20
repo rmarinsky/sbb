@@ -96,6 +96,56 @@ sbb("Line 1").n().append("Line 2").n().append("Line 3").build()
 // Line 3
 ```
 
+### Log Message Formatting
+
+SBB is useful for building structured log messages with consistent formatting:
+
+#### Basic Log Entry
+```
+sbb().sb("INFO").w().sb("2024-01-15 10:30:00").w().append("User logged in successfully").build()
+// Result: "[INFO] [2024-01-15 10:30:00] User logged in successfully"
+```
+
+#### Log with Context
+```
+sbb().sb("ERROR").w().sb("RequestId:abc123").w()
+    .append("Failed to process request:").w().dq("Connection timeout")
+    .build()
+// Result: "[ERROR] [RequestId:abc123] Failed to process request: "Connection timeout""
+```
+
+#### Structured Key-Value Log
+```
+sbb().sb("DEBUG").w()
+    .append("userId=").append(123).coma().w()
+    .append("action=").dq("checkout").coma().w()
+    .append("items=").append(5)
+    .build()
+// Result: "[DEBUG] userId=123, action="checkout", items=5"
+```
+
+#### Multi-line Error Log
+```
+sbb().sb("ERROR").w().append("Exception occurred").n()
+    .t().append("Message:").w().dq("NullPointerException").n()
+    .t().append("File:").w().append("UserService.java").n()
+    .t().append("Line:").w().append(142)
+    .build()
+// Result:
+// [ERROR] Exception occurred
+//     Message: "NullPointerException"
+//     File: UserService.java
+//     Line: 142
+```
+
+#### Request/Response Log
+```
+sbb().sb("HTTP").w().append("GET").w().append("/api/users").w()
+    .p(sbb("status=").append(200).coma().w().append("time=").append(45).append("ms").build())
+    .build()
+// Result: "[HTTP] GET /api/users (status=200, time=45ms)"
+```
+
 ## Thread Safety
 
 All implementations are thread-safe by design. Each `sbb()` call creates a new independent instance, making it safe for concurrent/parallel operations.
