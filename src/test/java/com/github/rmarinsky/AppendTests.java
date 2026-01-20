@@ -10,7 +10,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.github.rmarinsky.SBB.sbb;
@@ -116,6 +123,69 @@ public class AppendTests {
         // Assert that build method returns the string
         assertEquals("test", result);
         // Assert that StringBuilder instance is empty after build
+    }
+
+    @Test
+    @DisplayName("Thread safety test - concurrent usage")
+    void concurrentUsageTest() throws InterruptedException {
+        int threadCount = 100;
+        int iterationsPerThread = 1000;
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        CountDownLatch startLatch = new CountDownLatch(1);
+        CountDownLatch doneLatch = new CountDownLatch(threadCount);
+        AtomicInteger successCount = new AtomicInteger(0);
+        AtomicInteger failCount = new AtomicInteger(0);
+
+        for (int t = 0; t < threadCount; t++) {
+            final int threadId = t;
+            executor.submit(() -> {
+                try {
+                    startLatch.await(); // Wait for all threads to be ready
+                    for (int i = 0; i < iterationsPerThread; i++) {
+                        String expected = "Thread" + threadId + "-Item" + i;
+                        String result = sbb("Thread").append(threadId).append("-Item").append(i).build();
+                        if (expected.equals(result)) {
+                            successCount.incrementAndGet();
+                        } else {
+                            failCount.incrementAndGet();
+                        }
+                    }
+                } catch (Exception e) {
+                    failCount.incrementAndGet();
+                } finally {
+                    doneLatch.countDown();
+                }
+            });
+        }
+
+        startLatch.countDown(); // Start all threads simultaneously
+        doneLatch.await(30, TimeUnit.SECONDS);
+        executor.shutdown();
+
+        int totalOperations = threadCount * iterationsPerThread;
+        assertThat(failCount.get())
+                .as("No race conditions should occur - all %d operations should succeed", totalOperations)
+                .isEqualTo(0);
+        assertThat(successCount.get()).isEqualTo(totalOperations);
+    }
+
+    @Test
+    @DisplayName("Thread safety test - parallel streams")
+    void parallelStreamTest() {
+        int itemCount = 10000;
+
+        List<String> results = IntStream.range(0, itemCount)
+                .parallel()
+                .mapToObj(i -> sbb("Item-").append(i).sq("quoted").build())
+                .collect(Collectors.toList());
+
+        assertThat(results).hasSize(itemCount);
+
+        // Verify each result has correct format (no interleaving)
+        for (int i = 0; i < itemCount; i++) {
+            String expected = "Item-" + i + "'quoted'";
+            assertThat(results.get(i)).isEqualTo(expected);
+        }
     }
 
     private static Stream<Arguments> appendMethods() {

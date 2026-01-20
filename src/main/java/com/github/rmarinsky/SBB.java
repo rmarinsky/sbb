@@ -4,28 +4,40 @@ import java.util.Optional;
 
 /**
  * String Builder Builder
+ * <p>
+ * Thread-safe fluent string builder.
+ * Each call to {@link #sbb()} creates a new instance,
+ * making it safe for use in multi-threaded environments
+ * (RxJava, Reactor, CompletableFuture, parallel streams, etc.)
+ * </p>
  */
 public class SBB {
 
     private final StringBuilder strBuilder;
 
-
     private SBB() {
         this.strBuilder = new StringBuilder();
     }
 
+    /**
+     * Creates a new SBB instance.
+     * Thread-safe: each call returns a new independent instance.
+     *
+     * @return new SBB instance
+     */
     public static SBB sbb() {
-        return LazyHolder.instance;
+        return new SBB();
     }
 
-    private static class LazyHolder {
-
-        private static final SBB instance = new SBB();
-
-    }
-
+    /**
+     * Creates a new SBB instance with initial text.
+     * Thread-safe: each call returns a new independent instance.
+     *
+     * @param basePlainText initial text to append
+     * @return new SBB instance with the text appended
+     */
     public static SBB sbb(Object basePlainText) {
-        return sbb().append(basePlainText);
+        return new SBB().append(basePlainText);
     }
 
     private SBB addToBuild(Object targetPlainText) {
