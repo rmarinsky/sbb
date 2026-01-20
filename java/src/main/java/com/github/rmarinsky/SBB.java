@@ -188,7 +188,7 @@ public class SBB {
     /**
      * Append as angle brackets
      *
-     * @return <targetPlainText>
+     * @return &lt;targetPlainText&gt;
      */
     public SBB angleBrackets(Object targetPlainText) {
         return this.charAppend('<').append(targetPlainText).charAppend('>');
